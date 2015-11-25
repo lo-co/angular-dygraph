@@ -34,7 +34,8 @@
     <!--TODO: Make sure that you have the min libs for production!!! -->
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+    <script src="../js/cirrus-dygraphs-dev.js"></script>
+    <script src="../js/legend.js"></script>
     <script src="../js/angular-dygraph.js"></script>
     <script>
         /* Just a demo controller...*/
@@ -42,6 +43,11 @@
             angular.module('main', ['dygraph'])
                 .controller('DygraphCtl', ['$scope', '$rootScope', function ($scope, $rootScope) {
                     var self = this;
+                    
+                    legend = new Dygraph.Plugins.Legend();
+                    
+                    
+                    //plugins.Legend = new Dygraph.Plugins.Legend();
 
                     $scope.data = [[1, 2,8], [15, 0, 4]];
                     $scope.x = 0;
@@ -49,7 +55,7 @@
                     $scope.addVal = function () {
                         $scope.data.push([$scope.x, $scope.y]);
                     };
-
+                    
                     $scope.options = {
                         legend: 'always',
                         title: 'NYC vs. SF',

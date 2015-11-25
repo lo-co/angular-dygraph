@@ -42,6 +42,7 @@
                 };
 
                 scope.ref = scope.api.addGraph();
+                console.log(scope.ref);
                 resize();
                 scope.ref.resetZoom();
 
@@ -56,6 +57,7 @@
                     attrs.id = id;
 
                 }
+                var labels = scope.ref.getLabels();
 
                 // Find the elements of interest - the dygraph legend elements will be in
                 // a span
@@ -68,19 +70,19 @@
                     // the event to fire twice?  This works but requires the names to be 
                     // completely different
                     e.on('click', 'span:contains("' + found[i].innerText + '")', function (el) {
-                        var label = scope.ref.getLabels();
                         var text = el.target.innerText;
                         console.log(text);
 
+                        
                         // So, setting the visibility to false causes the legend to 
                         // disapear...  Maybe use 
-                        var index = scope.ref.getLabels().indexOf(text)-1;
+                        var index = labels.indexOf(text.trim())-1;
                         console.log(scope.options);
-                        scope.options.strokePattern[index] = 0;
-                        scope.ref.updateOptions({strokePattern: [2,1]})
-                        /*scope.ref.setVisibility(index, 
+                        /*scope.options.strokePattern[index] = 0;
+                        scope.ref.updateOptions({strokePattern: [2,1]})*/
+                        scope.ref.setVisibility(index, 
                                                 !scope.ref.visibility()[index]);
-                        scope.ref.series = {}*/
+                        //scope.ref.series = {}
                         
                         
                     });
