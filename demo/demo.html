@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Dygraph Demo">
+    <meta name="author" content="cirrusio">
+
+    <link rel="stylesheet" href="../css/angular-dygraph.css">
+
+
+</head>
+
+<body ng-app="main">
+    <div ng-controller="DygraphCtl">
+        <div>
+            <dy-graph  style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
+        </div>
+        <div>
+            <dy-graph   style='height:400px;' data="data" options="options2"></dy-graph>
+        </div>
+        <div>
+            <input ng-model="x" type="number" />
+        </div>
+        <div>
+            <input ng-model="y" type="number" />
+        </div>
+        <button ng-click="addVal()">Add Value</button>
+    </div>
+
+
+    <!--Import libraries -->
+    <!--TODO: Make sure that you have the min libs for production!!! -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+    <script src="../js/angular-dygraph.js"></script>
+    <script>
+        /* Just a demo controller...*/
+        (function () {
+            angular.module('main', ['dygraph'])
+                .controller('DygraphCtl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+                    var self = this;
+
+                    $scope.data = [[1, 2], [15, 0]];
+                    $scope.x = 0;
+                    $scope.y = 12;
+                    $scope.addVal = function () {
+                        $scope.data.push([$scope.x, $scope.y]);
+                    };
+
+                    $scope.options = {
+                        //legend: 'always',
+                        title: 'NYC vs. SF',
+                        ylabel: 'Temperature (F)',
+                        xlabel: 'Time (s)',
+                        labels: ["x", "test"]
+                    };
+                    $scope.legend = {
+                        series: {
+                            A: {
+                                label: "Series A"
+                            }
+                        }
+                    };
+
+                    $scope.options2 = {
+                        legend: 'always',
+                        title: 'Testing another plot',
+                        ylabel: 'Temperature (C)',
+                        xlabel: 'Time (s)'
+                    };
+
+                    $scope.ID = Math.floor(Math.random() * 16000);
+
+
+                            }])
+        })();
+    </script>
+
+</body>
+
+</html>
