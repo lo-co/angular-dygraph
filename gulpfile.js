@@ -41,6 +41,8 @@ gulp.task('watch', function () {
     gulp.watch('sass/**/*.scss',['styles']);
 });
 
+
+
 // Default Task
 gulp.task('default', ['lint', 'scripts', 'styles','watch']);
 

@@ -16,6 +16,7 @@
                 scope.LegendEnabled = true;
 
 
+                scope.options.strokePattern = [1,1];
                 scope.api = {
                     addGraph: function () {
 
@@ -43,7 +44,49 @@
                 scope.ref = scope.api.addGraph();
                 resize();
                 scope.ref.resetZoom();
-                
+
+                angular.element('.dygraph-legend').css("cursor", "pointer");
+
+                var labels = scope.ref.getLabels();
+
+                // Provide a unique ID
+                if (attrs.id === undefined) {
+                    var id = "dygraph_" + Math.floor(Math.random() * 16000);
+                    e.attr('id', id);
+                    attrs.id = id;
+
+                }
+
+                // Find the elements of interest - the dygraph legend elements will be in
+                // a span
+                var found = $('#' + attrs.id).find('.dygraph-legend').children();
+
+                // Bind a click event to each one...
+                for (var i = 0; i < found.length; i++) {
+
+                    // For whatever reason, we can not just use the element...It causes
+                    // the event to fire twice?  This works but requires the names to be 
+                    // completely different
+                    e.on('click', 'span:contains("' + found[i].innerText + '")', function (el) {
+                        var label = scope.ref.getLabels();
+                        var text = el.target.innerText;
+                        console.log(text);
+
+                        // So, setting the visibility to false causes the legend to 
+                        // disapear...  Maybe use 
+                        var index = scope.ref.getLabels().indexOf(text)-1;
+                        console.log(scope.options);
+                        scope.options.strokePattern[index] = 0;
+                        scope.ref.updateOptions({strokePattern: [2,1]})
+                        /*scope.ref.setVisibility(index, 
+                                                !scope.ref.visibility()[index]);
+                        scope.ref.series = {}*/
+                        
+                        
+                    });
+                }
+
+                //'span:contains("' + found[i].innerText + '")'
 
 
                 /* reference to the graph - initialize the graph
@@ -113,15 +156,15 @@
                     });
 
                     var legendHeight = e.find('div.legend').outerHeight(true);
-                    console.log("Heights", legendHeight, parent.height(), parent.outerHeight(true),
+                    /*console.log("Heights", legendHeight, parent.height(), parent.outerHeight(true),
                         $(mainDiv).outerHeight(), e.height(), $(legendDiv).height(),
-                        $(legendDiv).outerHeight(true));
+                        $(legendDiv).outerHeight(true));*/
                     scope.ref.resize(parent.width(), parent.height() - legendHeight);
-                    console.log(parent);
-                    chartArea = $(chartDiv).offset();
-                    chartArea.bottom = chartArea.top + parent.height() - legendHeight;
-                    chartArea.right = chartArea.left + parent.width();
-                    console.log("Position", chartArea);
+                    /* console.log(parent);
+                     chartArea = $(chartDiv).offset();
+                     chartArea.bottom = chartArea.top + parent.height() - legendHeight;
+                     chartArea.right = chartArea.left + parent.width();
+                     console.log("Position", chartArea);*/
                 }
 
                 scope.seriesStyle = function (series) {

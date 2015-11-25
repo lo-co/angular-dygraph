@@ -14,8 +14,8 @@
 
 <body ng-app="main">
     <div ng-controller="DygraphCtl">
-        <div>
-            <dy-graph  style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
+        <div id ="test_id">
+            <dy-graph  id ="graph1" style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
         </div>
         <div>
             <dy-graph   style='height:400px;' data="data" options="options2"></dy-graph>
@@ -43,7 +43,7 @@
                 .controller('DygraphCtl', ['$scope', '$rootScope', function ($scope, $rootScope) {
                     var self = this;
 
-                    $scope.data = [[1, 2], [15, 0]];
+                    $scope.data = [[1, 2,8], [15, 0, 4]];
                     $scope.x = 0;
                     $scope.y = 12;
                     $scope.addVal = function () {
@@ -51,11 +51,11 @@
                     };
 
                     $scope.options = {
-                        //legend: 'always',
+                        legend: 'always',
                         title: 'NYC vs. SF',
                         ylabel: 'Temperature (F)',
                         xlabel: 'Time (s)',
-                        labels: ["x", "test"]
+                        labels: ["x", "crds 1", "crds 2"]
                     };
                     $scope.legend = {
                         series: {
