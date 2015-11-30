@@ -144,7 +144,7 @@
                     data: '=',
                     legend: '=?'
                 },
-                templateUrl: '../html/dygraph-template.html',
+                template: '<div class="c-dygraphs" style="height:300px;}"></div>',
                 link: link
             };
         });
