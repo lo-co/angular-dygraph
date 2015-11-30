@@ -14,10 +14,10 @@
 
 <body ng-app="main">
     <div ng-controller="DygraphCtl">
-        <div id ="test_id">
+        <div id ="test_id" style="width:50%">
             <dy-graph  id ="graph1" style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
         </div>
-        <div>
+        <div style="width:25%">
             <dy-graph   style='height:400px;' data="data" options="options2"></dy-graph>
         </div>
         <div>
@@ -35,7 +35,6 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="../js/cirrus-dygraphs-dev.js"></script>
-    <script src="../js/legend.js"></script>
     <script src="../js/angular-dygraph.js"></script>
     <script>
         /* Just a demo controller...*/
@@ -43,8 +42,6 @@
             angular.module('main', ['dygraph'])
                 .controller('DygraphCtl', ['$scope', '$rootScope', function ($scope, $rootScope) {
                     var self = this;
-                    
-                    legend = new Dygraph.Plugins.Legend();
                     
                     
                     //plugins.Legend = new Dygraph.Plugins.Legend();
@@ -58,22 +55,15 @@
                     
                     $scope.options = {
                         legend: 'always',
-                        title: 'NYC vs. SF',
+                        title: 'Test Plot 50%',
                         ylabel: 'Temperature (F)',
                         xlabel: 'Time (s)',
-                        labels: ["x", "crds 1", "crds 2"]
-                    };
-                    $scope.legend = {
-                        series: {
-                            A: {
-                                label: "Series A"
-                            }
-                        }
+                        labels: ["x", "crds1", "crds2"]
                     };
 
                     $scope.options2 = {
                         legend: 'always',
-                        title: 'Testing another plot',
+                        title: 'Testing Plot 25%',
                         ylabel: 'Temperature (C)',
                         xlabel: 'Time (s)'
                     };

@@ -5,18 +5,11 @@
 
             /* Link function used in the DDO returned below...*/
             var link = function (scope, e, attrs) {
-
-                scope.height = "300px";
-                // This is where the content is...
-                var mainDiv = e.children()[0];
-                var chartDiv = $(mainDiv).children()[0];
-                var legendDiv = $(mainDiv).children()[1];
-                var parent = e.parent();
-
-                scope.LegendEnabled = true;
+                
+                var graphDiv = e.children()[0];
 
 
-                scope.options.strokePattern = [1,1];
+                scope.options.strokePattern = [1, 1];
                 scope.api = {
                     addGraph: function () {
 
@@ -25,7 +18,7 @@
                         if (scope.options !== null) {
 
                             g = new Dygraph( // Add with injected options
-                                chartDiv,
+                                graphDiv,
                                 scope.data,
                                 scope.options
                             );
@@ -33,7 +26,7 @@
                         } else { // Add with default options
 
                             g = new Dygraph(
-                                chartDiv,
+                                graphDiv,
                                 scope.data
                             );
                         }
@@ -42,10 +35,10 @@
                 };
 
                 scope.ref = scope.api.addGraph();
-                console.log(scope.ref);
-                resize();
+
                 scope.ref.resetZoom();
 
+                // Set the cursor to a pointer over the legend to let the user know they can click on it...
                 angular.element('.dygraph-legend').css("cursor", "pointer");
 
                 var labels = scope.ref.getLabels();
@@ -66,25 +59,23 @@
                 // Bind a click event to each one...
                 for (var i = 0; i < found.length; i++) {
 
+                    // This is what I WANT to use, but if there are multiple plots, these don't attach properly...
+                    var sText = '#' + found[i].innerText.trim().split(' ').join('-') + '-leg';
+
                     // For whatever reason, we can not just use the element...It causes
                     // the event to fire twice?  This works but requires the names to be 
                     // completely different
-                    e.on('click', 'span:contains("' + found[i].innerText + '")', function (el) {
+                    e.on('click', 'span:contains("' + found[i].innerText + '")' /*sText*/ , function (el) {
                         var text = el.target.innerText;
                         console.log(text);
-
                         
                         // So, setting the visibility to false causes the legend to 
                         // disapear...  Maybe use 
-                        var index = labels.indexOf(text.trim())-1;
-                        console.log(scope.options);
-                        /*scope.options.strokePattern[index] = 0;
-                        scope.ref.updateOptions({strokePattern: [2,1]})*/
-                        scope.ref.setVisibility(index, 
-                                                !scope.ref.visibility()[index]);
-                        //scope.ref.series = {}
-                        
-                        
+                        var index = labels.indexOf(text.trim()) - 1;
+
+                        // Set the visibility of the current plot to not visible...
+                        scope.ref.setVisibility(index, !scope.ref.visibility()[index]);
+
                     });
                 }
 
@@ -124,50 +115,9 @@
                     }
                 }, true);
 
-                angular.element($window).bind('resize', function () {
+               /* angular.element($window).bind('resize', function () {
                     resize();
-                });
-
-                function resize() {
-                    /* var maxWidth = 0;
-
-                    var sDiv = e.find('div.series');
-                    e.find('div.series').each(function () {
-                        var itemWidth = $(this).width();
-                        maxWidth = Math.max(maxWidth, itemWidth);
-
-                    });
-
-                    e.find('div.series').each(function () {
-                        $(this).width(maxWidth);
-                    });
-
-                    var legendHeight = e.find('div.legend').outerHeight(true);
-                    scope.ref.resize(parent.width(), parent.height() - legendHeight);
-                    console.log("Height: ", parent.height());
-                    
-*/
-                    var chartArea = {};
-                    var maxWidth = 0;
-                    e.find('div.series').each(function () {
-                        var itemWidth = $(this).width();
-                        maxWidth = Math.max(maxWidth, itemWidth)
-                    });
-                    e.find('div.series').each(function () {
-                        $(this).width(maxWidth);
-                    });
-
-                    var legendHeight = e.find('div.legend').outerHeight(true);
-                    /*console.log("Heights", legendHeight, parent.height(), parent.outerHeight(true),
-                        $(mainDiv).outerHeight(), e.height(), $(legendDiv).height(),
-                        $(legendDiv).outerHeight(true));*/
-                    scope.ref.resize(parent.width(), parent.height() - legendHeight);
-                    /* console.log(parent);
-                     chartArea = $(chartDiv).offset();
-                     chartArea.bottom = chartArea.top + parent.height() - legendHeight;
-                     chartArea.right = chartArea.left + parent.width();
-                     console.log("Position", chartArea);*/
-                }
+                }); */
 
                 scope.seriesStyle = function (series) {
                     if (series.visible) {
