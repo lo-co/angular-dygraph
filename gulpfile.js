@@ -1,3 +1,5 @@
+/* This is the gulpfile for building and running angular-dygraphs. */
+
 // Include gulp
 var gulp = require('gulp');
 
