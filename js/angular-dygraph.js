@@ -40,6 +40,7 @@
 
                 // Set the cursor to a pointer over the legend to let the user know they can click on it...
                 angular.element('.dygraph-legend').css("cursor", "pointer");
+                angular.element('.dygraph-legend').css("width", "80%");
 
                 var labels = scope.ref.getLabels();
 
