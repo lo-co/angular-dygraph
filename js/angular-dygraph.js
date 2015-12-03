@@ -80,9 +80,6 @@
                     });
                 }
 
-                //'span:contains("' + found[i].innerText + '")'
-
-
                 /* reference to the graph - initialize the graph
                  * If object equality (last value in the $watch expression)
                  * is not true, the functionwill not work properly...
@@ -95,46 +92,11 @@
                         });
                     }
                 }, true);
-
-                scope.legendSeries = {};
-
-                scope.$watch('legend', function () {
-                    var colors = scope.ref.getColors();
-                    var labels = scope.ref.getLabels();
-                    if (scope.legend !== undefined && scope.legend.series !== undefined) {
-                        var cnt = 0;
-
-                        for (var key in scope.legend.series) {
-                            scope.legendSeries[key] = {};
-                            scope.legendSeries[key].color = colors[cnt];
-                            scope.legendSeries[key].label = scope.legend.series[key].label;
-                            scope.legendSeries[key].format = scope.legend.series[key].format;
-                            scope.legendSeries[key].visible = true;
-                            scope.legendSeries[key].column = cnt;
-
-                        }
-                    }
+                
+                scope.$watch('options', function(newOptions){
+                    scope.ref.updateOptions(newOptions);
                 }, true);
 
-               /* angular.element($window).bind('resize', function () {
-                    resize();
-                }); */
-
-                scope.seriesStyle = function (series) {
-                    if (series.visible) {
-                        return series.color;
-                    }
-                };
-
-                scope.seriesLine = function (series) {
-                    return $sce.trustAsHtml('<svg height="14" width="20"><line <x1="0" x2="16" y1="8" y2="8" stroke="' +
-                        series.color + '"stroke-width="3"/></svg>');
-                };
-
-                scope.selectSeries = function (series) {
-                    series.visible = !series.visible;
-                    scope.ref.setVisibility(series.column, series.visible);
-                };
             };
 
             return {
