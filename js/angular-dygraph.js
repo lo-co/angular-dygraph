@@ -24,10 +24,6 @@
                 
                 var gWidth = 100 - lWidth;
                 
-
-                
-                console.log(scope.options.labelsDiv);
-                
                 scope.api = {
                     addGraph: function () {
                         
@@ -41,9 +37,6 @@
                 };
 
                 scope.ref = scope.api.addGraph();
-
-                
-                //scope.ref.resetZoom();
 
                 // Set the cursor to a pointer over the legend to let the user know they can click on it...
                  angular.element('.cirrus-legend').css("cursor", "pointer");
@@ -95,7 +88,6 @@
                  */
                scope.$watch('data', function () {
                     if (scope.data !== 0) {
-                        console.log(scope.data);
                         // Only update if there data
                        scope.ref.updateOptions({
                             'file': scope.data
