@@ -5,42 +5,50 @@
 
             /* Link function used in the DDO returned below...*/
             var link = function (scope, e, attrs) {
-                
-                var graphDiv = e.children()[0];
 
+                var graphDiv = e.find('div')[1]; //e.children()[0];
+                
+                var legDiv =  e.find('div')[2];
 
                 scope.options.strokePattern = [1, 1];
+                
+                // Second div holds the legend...
+                scope.options.labelsDiv = legDiv;
+                //scope.options.axisLabelWidth = [0,60];
+                scope.options.axisLineColor = 'white';
+                var lWidth = 100;
+                
+                if (scope.legWidth !== undefined){
+                    lWidth = scope.legWidth;
+                }
+                
+                var gWidth = 100 - lWidth;
+                
+
+                
+                console.log(scope.options.labelsDiv);
+                
                 scope.api = {
                     addGraph: function () {
-
-                        var g = {};
-
-                        if (scope.options !== null) {
-
-                            g = new Dygraph( // Add with injected options
-                                graphDiv,
-                                scope.data,
-                                scope.options
-                            );
-
-                        } else { // Add with default options
-
-                            g = new Dygraph(
-                                graphDiv,
-                                scope.data
-                            );
-                        }
-                        return g;
+                        
+                        return new Dygraph( // Add with injected options
+                            graphDiv,
+                            scope.data,
+                            scope.options
+                            
+                        );
                     }
                 };
 
                 scope.ref = scope.api.addGraph();
 
-                scope.ref.resetZoom();
+                
+                //scope.ref.resetZoom();
 
                 // Set the cursor to a pointer over the legend to let the user know they can click on it...
-                angular.element('.dygraph-legend').css("cursor", "pointer");
-                angular.element('.dygraph-legend').css("width", "80%");
+                 angular.element('.cirrus-legend').css("cursor", "pointer");
+                //angular.element('.cirrus-graph').css("width", gWidth +"%");
+                //angular.element('.cirrus-legend').css("width", lWidth + "%");
 
                 var labels = scope.ref.getLabels();
 
@@ -51,11 +59,12 @@
                     attrs.id = id;
 
                 }
-                var labels = scope.ref.getLabels();
+                //var labels = scope.ref.getLabels();
 
                 // Find the elements of interest - the dygraph legend elements will be in
                 // a span
-                var found = $('#' + attrs.id).find('.dygraph-legend').children();
+                //var found = $('#' + attrs.id).find('.dygraph-legend').children();
+                var found = $('#' + attrs.id).find('.cirrus-legend').children();
 
                 // Bind a click event to each one...
                 for (var i = 0; i < found.length; i++) {
@@ -66,14 +75,14 @@
                     // For whatever reason, we can not just use the element...It causes
                     // the event to fire twice?  This works but requires the names to be 
                     // completely different
-                    e.on('click', 'span:contains("' + found[i].innerText + '")' /*sText*/ , function (el) {
+                    e.on('click', 'div:contains("' + found[i].innerText + '")', function (el) {
                         var text = el.target.innerText;
                         console.log(text);
-                        
+
                         // So, setting the visibility to false causes the legend to 
                         // disapear...  Maybe use 
                         var index = labels.indexOf(text.trim()) - 1;
-
+                        
                         // Set the visibility of the current plot to not visible...
                         scope.ref.setVisibility(index, !scope.ref.visibility()[index]);
 
@@ -84,20 +93,31 @@
                  * If object equality (last value in the $watch expression)
                  * is not true, the functionwill not work properly...
                  */
-                scope.$watch('data', function () {
+               scope.$watch('data', function () {
                     if (scope.data !== 0) {
+                        console.log(scope.data);
                         // Only update if there data
-                        scope.ref.updateOptions({
+                       scope.ref.updateOptions({
                             'file': scope.data
                         });
                     }
                 }, true);
-                
-                scope.$watch('options', function(newOptions){
+
+                // With the legend in a separate div, this is causing some kind of cycling 
+                // I don't understand...  It's like updating some option forces an update
+                // on some other option...
+                /* scope.$watch('options', function (newOptions) {
+                    
+                    console.log(newOptions);
                     scope.ref.updateOptions(newOptions);
-                }, true);
+                }, true);*/
 
             };
+            /*var temp = '<table><tr><td><div style="width:80%;"></div></td><td valign=top> ' +
+                '<div class="cirrus-legend" style="width:20%; font-size:1em; padding-top:5px;"></div>' +
+                '</td></tr></table>';*/
+        var temp = '<div style="width:100%;margin-top:10px;clear:both"><div class="cirrus-graph" style="width:85%;float:left;background-color:lightgrey;border-radius:5px;margin-right:5px;  "></div> ' +
+                '<div class="cirrus-legend" style="width:13%; border-radius:5px; padding:5px;background-color:lightgrey;font-size:1em; padding-top:5px;float:left"></div></div>';
 
             return {
                 restrict: 'E',
@@ -105,9 +125,10 @@
                     /* requires Angular > 1.3 */
                     options: '=?',
                     data: '=',
-                    legend: '=?'
+                    legend: '=?',
+                    legWidth: '=?'
                 },
-                template: '<div class="c-dygraphs" style="height:300px;}"></div>',
+                template: temp, //'<div class="c-dygraphs" style="height:300px;}"></div>',
                 link: link
             };
         });

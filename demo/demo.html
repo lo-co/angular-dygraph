@@ -14,19 +14,21 @@
 
 <body ng-app="main">
     <div ng-controller="DygraphCtl">
-        <div id ="test_id" style="width:50%">
-            <dy-graph  id ="graph1" style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
+        <div id="test_id" style="width:100%">
+            <dy-graph id="graph1" style='height:400px;' data="data" options="options" legend="legend"></dy-graph>
         </div>
-        <div style="width:25%">
-            <dy-graph   style='height:400px;' data="data" options="options2"></dy-graph>
+        <div style="width:100%">
+            <dy-graph style='height:400px;' data="data" options="options2" legWidth="10"></dy-graph>
         </div>
-        <div>
-            <input ng-model="x" type="number" />
+        <div style="width:100%; float:left">
+            <div>
+                <input ng-model="x" type="number" />
+            </div>
+            <div>
+                <input ng-model="y" type="number" />
+            </div>
+            <button ng-click="addVal()">Add Value</button>
         </div>
-        <div>
-            <input ng-model="y" type="number" />
-        </div>
-        <button ng-click="addVal()">Add Value</button>
     </div>
 
 
@@ -42,17 +44,17 @@
             angular.module('main', ['dygraph'])
                 .controller('DygraphCtl', ['$scope', '$rootScope', function ($scope, $rootScope) {
                     var self = this;
-                    
-                    
+
+
                     //plugins.Legend = new Dygraph.Plugins.Legend();
 
-                    $scope.data = [[1, 2,8], [15, 0, 4]];
+                    $scope.data = [[1, 2, 8], [15, 0, 4]];
                     $scope.x = 0;
                     $scope.y = 12;
                     $scope.addVal = function () {
                         $scope.data.push([$scope.x, $scope.y]);
                     };
-                    
+
                     $scope.options = {
                         legend: 'always',
                         title: 'Test Plot 50%',

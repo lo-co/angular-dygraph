@@ -9685,8 +9685,18 @@ Dygraph.Plugins.Legend = (function () {
                 if (html !== '') html += (sepLines ? '<br/>' : ' ');
                 strokePattern = g.getOption("strokePattern", labels[i]);
                 dash = generateLegendDashHTML(strokePattern, series.color, oneEmWidth);
-                html += "<span style='font-weight: bold; color: " + series.color + ";' id='" + id + "'>" +
-                    dash + " " + escapeHTML(labels[i]) + "</span>";
+
+                /* Added if statement so that elements are in div if a separate element is provided
+                 * for placing the legend in along with the command to float...
+                 *
+                 */
+                if (g.getOption('labelsDiv') === null) {
+                    html += "<span style='font-weight: bold; color: " + series.color + ";' id='" + id + "'>" +
+                        dash + " " + escapeHTML(labels[i]) + "</span>";
+                } else {
+                    html += "<div style='font-weight: bold; color: " + series.color + ";float:left; clear:both' id='" + id + "'>" +
+                        dash + " " + escapeHTML(labels[i]) + "</div>";
+                }
             }
             return html;
         }
