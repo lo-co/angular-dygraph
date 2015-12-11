@@ -1,0 +1,36 @@
+<h1><code ng:non-bindable="">dyGraph</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">dygraph</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="dygraph-directive-page dygraph-directive-dygraph-page"><p>This is the directive which is used to wrap dygraph elements.  The directive 
+provides a legend in a separate <code>div</code> than the graph itself.  The legend
+will be placed to the right of the plot.  The graph itself will scale to 
+fill the whole element.  Individual graphs may be turned off and on by clicking 
+the legend element.</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$window">$window</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$sce">$sce</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;dy-graph
+       [options="{object}"]
+       data="{array}"
+       [leg-width="{number}"]&gt;
+&lt;/dy-graph&gt;</pre>
+<h3 id="usage_directive-info">Directive info</h3>
+<div class="directive-info"><ul><li>This directive creates new scope.</li>
+</ul>
+</div>
+<h4 id="usage_directive-info_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="dygraph-directive-page dygraph-directive-dygraph-page"><p>A dygraph options object</p>
+</div></td></tr><tr><td>data</td><td><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="dygraph-directive-page dygraph-directive-dygraph-page"><p>A 2-D array which follows the format defined on dygraphs.com.
+The first element in each array is always the x-data for that point and the remaining 
+elements are the y values associated with that x-data point.</p>
+</div></td></tr><tr><td>legWidth <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="dygraph-directive-page dygraph-directive-dygraph-page"><p>The width of the div containing the legend element.  The
+default is 100 px.</p>
+</div></td></tr></tbody></table></div>
+</div>
