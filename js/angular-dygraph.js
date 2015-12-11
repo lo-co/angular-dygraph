@@ -120,14 +120,12 @@
                     }
                 }, true);
 
-                // With the legend in a separate div, this is causing some kind of cycling 
-                // I don't understand...  It's like updating some option forces an update
-                // on some other option...
-                /* scope.$watch('options', function (newOptions) {
+                
+                scope.$watch('options.ylabel', function () {
                     
-                    console.log(newOptions);
-                    scope.ref.updateOptions(newOptions);
-                }, true);*/
+                    console.log(scope.options);
+                    scope.ref.updateOptions(scope.options);
+                }, true);
 
             };
             /*var temp = '<table><tr><td><div style="width:80%;"></div></td><td valign=top> ' +

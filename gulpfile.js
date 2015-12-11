@@ -65,7 +65,7 @@ gulp.task('connect2docs', function () {
     connect.server({
         root: 'docs',
         livereload: true,
-        port: 8000
+        port: 8010
     });
     console.log('Server started on http://localhost:8000');
 });
