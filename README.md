@@ -2,7 +2,7 @@
 
 This repository contains an implementation of a directive that wraps up the canvas javascript charting library [dygraphs](http://www.dygraphs.com).  
 
-This implementation uses a customized dygraphs js file that keeps the ``span`` elements on the canvas visible so that we can access them for click events.  This implementation is available in js.  
+This implementation uses a [customized dygraphs js](https://github.com/lo-co/angular-dygraph/blob/master/js/cirrus-dygraphs-dev.js) file that keeps the ``span`` elements on the canvas visible so that we can access them for click events.  This implementation is available in js.  
 
 ## Map Forward
 
