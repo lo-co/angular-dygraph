@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    /** 
+    /**
      * @ngdoc overview
      * @name dygraph
      * @description
@@ -16,17 +16,17 @@
              * @requires $window
              * @requires $sce
              * @param {object=} options A dygraph options object
-             * @param {array} data A 2-D array which follows the format defined on dygraphs.com.   
-             * The first element in each array is always the x-data for that point and the remaining 
+             * @param {array} data A 2-D array which follows the format defined on dygraphs.com.
+             * The first element in each array is always the x-data for that point and the remaining
              * elements are the y values associated with that x-data point.
-             * @param {number=} legWidth The width of the div containing the legend element.  The 
+             * @param {number=} legWidth The width of the div containing the legend element.  The
              * default is 100 px.
              *
              * @description
-             * This is the directive which is used to wrap dygraph elements.  The directive 
+             * This is the directive which is used to wrap dygraph elements.  The directive
              * provides a legend in a separate ``div`` than the graph itself.  The legend
-             * will be placed to the right of the plot.  The graph itself will scale to 
-             * fill the whole element.  Individual graphs may be turned off and on by clicking 
+             * will be placed to the right of the plot.  The graph itself will scale to
+             * fill the whole element.  Individual graphs may be turned off and on by clicking
              * the legend element.
              */
 
@@ -41,15 +41,8 @@
 
                 // Second div holds the legend...
                 scope.options.labelsDiv = legDiv;
-                //scope.options.axisLabelWidth = [0,60];
+
                 scope.options.axisLineColor = 'white';
-                var lWidth = 100;
-
-                if (scope.legWidth !== undefined) {
-                    lWidth = scope.legWidth;
-                }
-
-                var gWidth = 100 - lWidth;
 
                 scope.api = {
                     addGraph: function () {
@@ -58,7 +51,6 @@
                             graphDiv,
                             scope.data,
                             scope.options
-
                         );
                     }
                 };
@@ -75,37 +67,14 @@
                     var id = "dygraph_" + Math.floor(Math.random() * 16000);
                     e.attr('id', id);
                     attrs.id = id;
-
                 }
-                //var labels = scope.ref.getLabels();
 
-                // Find the elements of interest - the dygraph legend elements will be in
-                // a span
-                //var found = $('#' + attrs.id).find('.dygraph-legend').children();
-                var found = $('#' + attrs.id).find('.cirrus-legend').children();
-
-                // Bind a click event to each one...
-                for (var i = 0; i < found.length; i++) {
-
-                    // This is what I WANT to use, but if there are multiple plots, these don't attach properly...
-                    var sText = '#' + found[i].innerText.trim().split(' ').join('-') + '-leg';
-
-                    // For whatever reason, we can not just use the element...It causes
-                    // the event to fire twice?  This works but requires the names to be 
-                    // completely different
-                    e.on('click', 'div:contains("' + found[i].innerText + '")', function (el) {
-                        var text = el.target.innerText;
-                        console.log(text);
-
-                        // So, setting the visibility to false causes the legend to 
-                        // disapear...  Maybe use 
-                        var index = labels.indexOf(text.trim()) - 1;
-
-                        // Set the visibility of the current plot to not visible...
-                        scope.ref.setVisibility(index, !scope.ref.visibility()[index]);
-
-                    });
-                }
+                // Add event handler for clicking on the legend element.
+                // TODO: This needs to be based on the id rather than the inner text (need way to separate two)
+                $('#' + attrs.id).on('click', '.legend-entry', function () {
+                    var index = labels.indexOf($(this).text().trim()) - 1;
+                    scope.ref.setVisibility(index, !scope.ref.visibility()[index]);
+                });
 
                 /* reference to the graph - initialize the graph
                  * If object equality (last value in the $watch expression)
@@ -120,19 +89,21 @@
                     }
                 }, true);
 
-                
+
                 scope.$watch('options.ylabel', function () {
-                    
-                    console.log(scope.options);
                     scope.ref.updateOptions(scope.options);
                 }, true);
 
             };
             /*var temp = '<table><tr><td><div style="width:80%;"></div></td><td valign=top> ' +
-                '<div class="cirrus-legend" style="width:20%; font-size:1em; padding-top:5px;"></div>' +
-                '</td></tr></table>';*/
-            var temp = '<div style="width:100%;margin-top:10px;clear:both"><div class="cirrus-graph" style="width:85%;float:left;background-color:lightgrey;border-radius:5px;margin-right:5px;  "></div> ' +
-                '<div class="cirrus-legend" style="width:13%; border-radius:5px; padding:5px;background-color:lightgrey;font-size:1em; padding-top:5px;float:left"></div></div>';
+             '<div class="cirrus-legend" style="width:20%; font-size:1em; padding-top:5px;"></div>' +
+             '</td></tr></table>';*/
+            var temp = ['<div style="width:100%;margin-top:10px;clear:both">',
+                '<div class="cirrus-graph" style="width:85%;float:left;background-color:transparent;border-radius:5px;margin-right:5px; "></div> ',
+                '<div class="cirrus-legend" style="width:13%; border-radius:5px; background-color:transparent;font-size:1em; padding-top:5px;float:left">',
+                '</div></div>'];
+
+            temp.join('');
 
             return {
                 restrict: 'E',
@@ -142,7 +113,7 @@
                     data: '=',
                     legWidth: '=?'
                 },
-                template: temp, //'<div class="c-dygraphs" style="height:300px;}"></div>',
+                template: temp,
                 link: link
             };
         });
