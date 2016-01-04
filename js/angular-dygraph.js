@@ -33,7 +33,7 @@
             /* Link function used in the DDO returned below...*/
             var link = function (scope, e, attrs) {
 
-                var graphDiv = e.find('div')[1]; //e.children()[0];
+                var graphDiv = e.find('div')[1];
 
                 var legDiv = e.find('div')[2];
 
@@ -95,9 +95,6 @@
                 }, true);
 
             };
-            /*var temp = '<table><tr><td><div style="width:80%;"></div></td><td valign=top> ' +
-             '<div class="cirrus-legend" style="width:20%; font-size:1em; padding-top:5px;"></div>' +
-             '</td></tr></table>';*/
             var temp = ['<div style="width:100%;margin-top:10px;clear:both">',
                 '<div class="cirrus-graph" style="width:85%;float:left;background-color:transparent;border-radius:5px;margin-right:5px; "></div> ',
                 '<div class="cirrus-legend" style="width:13%; border-radius:5px; background-color:transparent;font-size:1em; padding-top:5px;float:left">',
@@ -111,7 +108,8 @@
                     /* requires Angular > 1.3 */
                     options: '=?',
                     data: '=',
-                    legWidth: '=?'
+                    legWidth: '=?',
+                    ref: '=?'
                 },
                 template: temp,
                 link: link
