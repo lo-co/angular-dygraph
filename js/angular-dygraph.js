@@ -60,7 +60,7 @@
                 // Set the cursor to a pointer over the legend to let the user know they can click on it...
                 angular.element('.cirrus-legend').css("cursor", "pointer");
 
-                var labels = scope.ref.getLabels();
+                //scope.labels = scope.ref.getLabels();
 
                 // Provide a unique ID
                 if (attrs.id === undefined) {
@@ -72,7 +72,7 @@
                 // Add event handler for clicking on the legend element.
                 // TODO: This needs to be based on the id rather than the inner text (need way to separate two)
                 $('#' + attrs.id).on('click', '.legend-entry', function () {
-                    var index = labels.indexOf($(this).text().trim()) - 1;
+                    var index = scope.ref.getLabels().indexOf($(this).text().trim()) - 1;
                     scope.ref.setVisibility(index, !scope.ref.visibility()[index]);
                 });
 
